@@ -1,0 +1,4 @@
+/home/semyon/Projects/Qt/SGE/bin/CMakeFiles/rebuild_cache.dir
+/home/semyon/Projects/Qt/SGE/bin/CMakeFiles/SGE.dir
+/home/semyon/Projects/Qt/SGE/bin/CMakeFiles/edit_cache.dir
+/home/semyon/Projects/Qt/SGE/bin/CMakeFiles/SGE_autogen.dir

@@ -1,0 +1,35 @@
+# Meta
+set(AM_MULTI_CONFIG "FALSE")
+set(AM_PARALLEL "2")
+set(AM_VERBOSITY "")
+# Directories
+set(AM_CMAKE_SOURCE_DIR "/home/semyon/Projects/Qt/SGE")
+set(AM_CMAKE_BINARY_DIR "/home/semyon/Projects/Qt/SGE/bin")
+set(AM_CMAKE_CURRENT_SOURCE_DIR "/home/semyon/Projects/Qt/SGE")
+set(AM_CMAKE_CURRENT_BINARY_DIR "/home/semyon/Projects/Qt/SGE/bin")
+set(AM_CMAKE_INCLUDE_DIRECTORIES_PROJECT_BEFORE "")
+set(AM_BUILD_DIR "/home/semyon/Projects/Qt/SGE/bin/SGE_autogen")
+set(AM_INCLUDE_DIR "/home/semyon/Projects/Qt/SGE/bin/SGE_autogen/include")
+# Files
+set(AM_SOURCES "/home/semyon/Projects/Qt/SGE/src/Engine/engine.cpp;/home/semyon/Projects/Qt/SGE/src/Engine/import.cpp;/home/semyon/Projects/Qt/SGE/src/Engine/mesh.cpp;/home/semyon/Projects/Qt/SGE/src/Engine/object.cpp;/home/semyon/Projects/Qt/SGE/src/Engine/scene.cpp;/home/semyon/Projects/Qt/SGE/src/Engine/shader.cpp;/home/semyon/Projects/Qt/SGE/src/Engine/viewport.cpp;/home/semyon/Projects/Qt/SGE/src/main.cpp;/home/semyon/Projects/Qt/SGE/src/mainwindow.cpp;/home/semyon/Projects/Qt/SGE/src/test.cpp")
+set(AM_HEADERS "/home/semyon/Projects/Qt/SGE/include/Engine/engine.h;/home/semyon/Projects/Qt/SGE/include/Engine/import.h;/home/semyon/Projects/Qt/SGE/include/Engine/mesh.h;/home/semyon/Projects/Qt/SGE/include/Engine/object.h;/home/semyon/Projects/Qt/SGE/include/Engine/scene.h;/home/semyon/Projects/Qt/SGE/include/Engine/shader.h;/home/semyon/Projects/Qt/SGE/include/Engine/viewport.h;/home/semyon/Projects/Qt/SGE/include/mainwindow.h;/home/semyon/Projects/Qt/SGE/include/test.h")
+set(AM_SETTINGS_FILE "/home/semyon/Projects/Qt/SGE/bin/CMakeFiles/SGE_autogen.dir/AutogenOldSettings.txt")
+# Qt
+set(AM_QT_VERSION_MAJOR 5)
+set(AM_QT_MOC_EXECUTABLE "/home/semyon/snap/Qt/5.13.1/gcc_64/bin/moc")
+set(AM_QT_UIC_EXECUTABLE "/home/semyon/snap/Qt/5.13.1/gcc_64/bin/uic")
+# MOC settings
+set(AM_MOC_SKIP "")
+set(AM_MOC_DEFINITIONS "QT_CORE_LIB;QT_GUI_LIB;QT_OPENGL_LIB;QT_WIDGETS_LIB")
+set(AM_MOC_INCLUDES "/home/semyon/Projects/Qt/SGE/bin;/home/semyon/Projects/Qt/SGE;/home/semyon/Projects/Qt/SGE/include;/home/semyon/snap/Qt/5.13.1/gcc_64/include;/home/semyon/snap/Qt/5.13.1/gcc_64/include/QtCore;/home/semyon/snap/Qt/5.13.1/gcc_64/./mkspecs/linux-g++;/home/semyon/snap/Qt/5.13.1/gcc_64/include/QtGui;/home/semyon/snap/Qt/5.13.1/gcc_64/include/QtWidgets;/home/semyon/snap/Qt/5.13.1/gcc_64/include/QtOpenGL;/usr/include;/usr/include/c++/9;/usr/include/c++/9/x86_64-redhat-linux;/usr/include/c++/9/backward;/usr/lib/gcc/x86_64-redhat-linux/9/include;/usr/local/include")
+set(AM_MOC_OPTIONS "")
+set(AM_MOC_RELAXED_MODE "")
+set(AM_MOC_MACRO_NAMES "Q_OBJECT;Q_GADGET;Q_NAMESPACE")
+set(AM_MOC_DEPEND_FILTERS "")
+set(AM_MOC_PREDEFS_CMD "/usr/bin/g++;-dM;-E;-c;/usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp")
+# UIC settings
+set(AM_UIC_SKIP "")
+set(AM_UIC_TARGET_OPTIONS "")
+set(AM_UIC_OPTIONS_FILES "")
+set(AM_UIC_OPTIONS_OPTIONS "")
+set(AM_UIC_SEARCH_PATHS "")
