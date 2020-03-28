@@ -1,36 +1,26 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
 
-project(SGE LANGUAGES CXX)
+project(SovietGameEngine LANGUAGES CXX)
 
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_CXX_CLANG_TIDY)
 
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-
-set(CMAKE_CXX_STANDARD 11)
+# C++ properties
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt5Core)
-find_package(Qt5Gui)
-find_package(Qt5Widgets)
-find_package(Qt5OpenGL)
-find_package(OpenGL)
+include(GNUInstallDirs)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY
+	${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY
+	${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY
+	${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR})
 
-set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/bin)
+find_package(Qt5 COMPONENTS Widgets Core Gui OpenGL REQUIRED)
+find_package(OpenGL REQUIRED OpenGL)
+find_package(Boost REQUIRED COMPONENTS unit_test_framework)
+find_package(assimp REQUIRED)
 
-include_directories(include/)
-
-#set(BUILD_ASSIMP_TOOLS  ON)
-#set(ASSIMP_BUILD_STATIC_LIB ON)
-#add_subdirectory(libs/assimp-4.0.1)
-
-file(GLOB_RECURSE header "include/*.h" "include/*/*.h")
-file(GLOB_RECURSE src "src/*.cpp" "src/*/*.cpp")
-file(GLOB_RECURSE resources "resources/*/*.qrc")
-
-add_executable(SGE ${src} ${header} ${resources} "ui/mainwindow.ui")
-qt5_use_modules(SGE Core Gui Widgets OpenGL)
-target_link_libraries(SGE ${QT_LIBRARIES} ${OPENGL_LIBRARIES} assimp)
-
-
+add_subdirectory(src)
+add_subdirectory(tests)
