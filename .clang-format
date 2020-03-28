@@ -1,0 +1,8 @@
+BasedOnStyle: LLVM
+IndentWidth: 4
+BreakBeforeBraces: Allman
+AllowShortIfStatementsOnASingleLine: true
+IndentCaseLabels: false
+AccessModifierOffset: -4
+NamespaceIndentation: All
+MaxEmptyLinesToKeep: 2

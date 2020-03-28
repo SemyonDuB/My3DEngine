@@ -1,61 +1,83 @@
-#include "Engine/viewport.h"
-#include "Engine/import.h"
+#include "viewport.h"
+#include "navigation.h"
+#include "scene.h"
+#include "import.h"
+#include "shader.h"
+
 #include <QGuiApplication>
+#include <QMouseEvent>
+#include <QOpenGLContext>
+#include <QOpenGLDebugLogger>
 #include <QSurfaceFormat>
 
-Viewport::Viewport() :
-	eng(new Engine()),
-	m_lastPos(),
-	m_yRot(0),
-	m_xRot(0),
-	m_xView(0),
-	m_yView(0),
-	m_zView(-10)
+#include <iostream>
+
+Viewport::Viewport()
+    : shaderProgram(new SGE::Shader), scene(new SGE::Scene),
+      nvg(new SGE::Navigation)
 {
 }
 
-Viewport::~Viewport()
-{
-    delete eng;
-    eng = nullptr;
-}
 
 void Viewport::initializeGL()
 {
-	printContextInformation();
+    // create debug logger
+    QOpenGLContext *ctx = QOpenGLContext::currentContext();
+    QOpenGLDebugLogger *logger = new QOpenGLDebugLogger(ctx);
 
-	eng->initEngine();
+    if (logger->initialize())
+    {
+        std::cout << "\n"
+                  << "GL_DEBUG Logger" << logger << "\n";
 
-	Import monkey("/home/semyon/Projects/Qt/MyEngine/resources/mini_scene.obj",
-                   *eng->scene);
+        // connect logger and start logging
+        connect(logger, &QOpenGLDebugLogger::messageLogged, this,
+                &Viewport::loggedMessage);
+        logger->startLogging();
+    }
 
-    eng->setupObjects();
+    printContextInformation();
+
+    SGE::initEngine(*shaderProgram, *scene, *nvg);
+
+    // Get absolute path to object file
+    std::string filePath = SGE::getAssetsFileName("models/mini_scene.obj");
+
+    SGE::Import monkey(filePath, *scene);
+
+    nvg->setScene(scene);
+    nvg->setVPMatrix(scene->getProj(), scene->getView());
 }
+
 
 void Viewport::resizeGL(int w, int h)
 {
-	glViewport(0, 0, w, h);
-    
-    float aspect = w / float(h);
-    
-    projection.setToIdentity();
-    projection.perspective(45.0, aspect, 0.1f, 100);
+    glViewport(0, 0, w, h);
+    VPsize.setWidth(w);
+    VPsize.setHeight(h);
 
-    eng->scene->setProjection(projection);
+    nvg->setViewportSize(VPsize);
+
+    float aspect = w / float(h);
+
+    projection.setToIdentity();
+    projection.perspective(45.0, aspect, 0.1f, 100.f);
 }
+
 
 void Viewport::paintGL()
 {
     view.setToIdentity();
-    view.translate(m_xView, m_yView, m_zView);
-    view.rotate(m_xRot / 16.0f, 1, 0, 0);
-    view.rotate(m_yRot / 16.0f, 0, 1, 0);
+    view.translate(nvg->getViewPos());
+    view.rotate(nvg->getXRot() / 16.0f, 1, 0, 0);
+    view.rotate(nvg->getYRot() / 16.0f, 0, 1, 0);
 
-    eng->scene->setView(view);
-    eng->drawObjects();
+    scene->setVPMatrix(projection, view);
+    scene->drawAllObj(*shaderProgram);
 }
 
-// I stole next func from Qt tutorial
+
+// I stole next functions from Qt tutorial
 void Viewport::printContextInformation()
 {
     QString glType;
@@ -64,95 +86,128 @@ void Viewport::printContextInformation()
 
     // Get Version Information
     glType = (context()->isOpenGLES()) ? "OpenGL ES" : "OpenGL";
-	glVersion = reinterpret_cast<const char*>(glGetString(GL_VERSION));
+    glVersion = reinterpret_cast<const char *>(glGetString(GL_VERSION));
 
-    // Get Profile Information
-    #define CASE(c) case QSurfaceFormat::c: glProfile = #c; break
+// Get Profile Information
+#define CASE(c)                                                                \
+    case QSurfaceFormat::c:                                                    \
+        glProfile = #c;                                                        \
+        break
     switch (format().profile())
     {
         CASE(NoProfile);
         CASE(CoreProfile);
         CASE(CompatibilityProfile);
     }
-    #undef CASE
+#undef CASE
 
     // qPrintable() will print our QString w/o quotes around it.
-    qDebug() << qPrintable(glType) << qPrintable(glVersion)
-             << "(" << qPrintable(glProfile) << ")";
+    std::cout << "\n"
+              << qPrintable(glType) << qPrintable(glVersion) << "("
+              << qPrintable(glProfile) << ")"
+              << "\n\n";
 }
+
 
 void Viewport::mousePressEvent(QMouseEvent *e)
 {
-    m_lastPos = e->pos();
+    nvg->mousePress(e);
+    update();
 }
+
 
 void Viewport::mouseMoveEvent(QMouseEvent *e)
 {
-    int dx = e->x() - m_lastPos.x();
-    int dy = e->y() - m_lastPos.y();
-
-    bool shift = QGuiApplication::queryKeyboardModifiers().testFlag(Qt::ShiftModifier);
-    bool ctrl = QGuiApplication::queryKeyboardModifiers().testFlag(Qt::ControlModifier);
-
-    if (e->buttons() & Qt::MiddleButton)
-    {
-        if(shift)
-        {
-            m_xView += static_cast<float>(dx)/50;
-            m_yView -= static_cast<float>(dy)/50;
-            update();
-        } else if(ctrl) {
-            m_zView += static_cast<float>(dy)/25;
-            update();
-        }
-        else
-        {
-            setXRotation(m_xRot + 8 * dy);
-            setYRotation(m_yRot + 8 * dx);
-        }
-    }
-
-    m_lastPos = e->pos();
+    nvg->mouseMove(e);
+    update();
 }
+
 
 void Viewport::wheelEvent(QWheelEvent *e)
 {
-    if (e->delta() > 0)
-    {
-        ++m_zView;
-        update();
-    }else{
-        --m_zView;
-        update();
-    }
+    nvg->wheelEv(e);
+    update();
 }
 
-static void qNormalizeAngle(int &angle)
+
+void Viewport::keyPressEvent(QKeyEvent *ev)
 {
-    while (angle < 0)
-        angle += 360 * 16;
-    while (angle > 360 * 16)
-        angle -= 360 * 16;
+    nvg->keyPress(ev);
+    update();
 }
 
-void Viewport::setXRotation(int angle)
-{
-    qNormalizeAngle(angle);
-    if (angle != m_xRot)
-    {
-        m_xRot = angle;
-        emit xRotationChanged(angle);
-        update();
-    }
-}
 
-void Viewport::setYRotation(int angle)
+void Viewport::loggedMessage(const QOpenGLDebugMessage &msg)
 {
-    qNormalizeAngle(angle);
-    if (angle != m_yRot)
+    QString error;
+
+    switch (msg.severity())
     {
-        m_yRot = angle;
-        emit yRotationChanged(angle);
-        update();
+    case QOpenGLDebugMessage::NotificationSeverity:
+        error += "--";
+        break;
+    case QOpenGLDebugMessage::HighSeverity:
+        error += "!!";
+        break;
+    case QOpenGLDebugMessage::MediumSeverity:
+        error += "!~";
+        break;
+    case QOpenGLDebugMessage::LowSeverity:
+        error += "~~";
+        break;
+    case QOpenGLDebugMessage::AnySeverity:
+        error += "**";
+        break;
+    case QOpenGLDebugMessage::InvalidSeverity:
+        error += "!*";
+        break;
     }
+
+    error += " (";
+
+    // Format based on source
+#define CASE(c)                                                                \
+    case QOpenGLDebugMessage::c:                                               \
+        error += #c;                                                           \
+        break
+    switch (msg.source())
+    {
+        CASE(APISource);
+        CASE(WindowSystemSource);
+        CASE(ShaderCompilerSource);
+        CASE(ThirdPartySource);
+        CASE(ApplicationSource);
+        CASE(OtherSource);
+        CASE(InvalidSource);
+        CASE(AnySource);
+    }
+#undef CASE
+
+    error += " : ";
+    //
+    // Format based on type
+#define CASE(c)                                                                \
+    case QOpenGLDebugMessage::c:                                               \
+        error += #c;                                                           \
+        break
+    switch (msg.type())
+    {
+        CASE(ErrorType);
+        CASE(DeprecatedBehaviorType);
+        CASE(UndefinedBehaviorType);
+        CASE(PortabilityType);
+        CASE(PerformanceType);
+        CASE(OtherType);
+        CASE(MarkerType);
+        CASE(GroupPushType);
+        CASE(GroupPopType);
+        CASE(InvalidType);
+        CASE(AnyType);
+    }
+#undef CASE
+
+    error += ")";
+
+    std::cout << qPrintable(error) << "\n";
+    std::cout << msg.message().toStdString() << "\n\n";
 }

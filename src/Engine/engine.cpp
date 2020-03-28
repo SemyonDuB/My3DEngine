@@ -1,57 +1,43 @@
-#include "Engine/engine.h"
+#include "engine.h"
+#include "navigation.h"
+#include "scene.h"
+#include "shader.h"
 
-Engine::Engine()
-	: scene(new Scene),
-	 shaderProgram()
+#include <cstdio>
+#include <iostream>
+#include <unistd.h>
+
+
+void SGE::initEngine(Shader &shaderProgram, Scene &scene, Navigation &nvg)
 {
-}
-
-Engine::~Engine()
-{
-    delete scene;
-    scene = nullptr;
-}
-
-void Engine::initEngine()
-{
-    initializeOpenGLFunctions();
-    glEnable(GL_DEPTH_TEST);
-
-    glClearColor(
-            scene->background_color[0],
-            scene->background_color[1],
-            scene->background_color[2],
-            scene->background_color[3]);
-
     shaderProgram.loadShader();
+    scene.initScene();
+    nvg.initNavigation();
 }
 
-void Engine::setScene(Scene &scene)
+
+void SGE::drawScene(Scene &scene, Shader &shaderProgram)
 {
-    this->scene = &scene;
+    scene.drawAllObj(shaderProgram);
 }
 
-void Engine::setupObjects() const
+
+std::string SGE::getAssetsFileName(std::string fileName)
 {
-    for(int i = 0; i < scene->objects.size(); ++i)
-    {
-        scene->objects[i].setupObj();
-    }
+    char working_dir[FILENAME_MAX];
+    getcwd(working_dir, sizeof(working_dir));
+
+    std::string full_path(working_dir);
+    full_path = full_path + "/assets/" + fileName;
+
+    return full_path;
 }
 
-void Engine::drawObjects()
+
+std::string SGE::getProjectDir()
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    char working_dir[FILENAME_MAX];
+    getcwd(working_dir, sizeof(working_dir));
 
-    glClearColor(
-            scene->background_color[0],
-            scene->background_color[1],
-            scene->background_color[2],
-            scene->background_color[3]);
-
-    for (int i = 0; i < scene->objects.size(); ++i)
-    {
-        scene->objects[i].drawObject(shaderProgram.phongShader);
-    }
+    return std::string(working_dir) + "/";
 }
-

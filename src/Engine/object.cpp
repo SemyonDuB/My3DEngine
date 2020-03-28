@@ -1,32 +1,48 @@
-#include "Engine/object.h"
+#include "object.h"
 
-Object::Object() :
-	projection(nullptr),
-	view(nullptr),
-	model()
+SGE::Object::Object()
+    : f(new QOpenGLFunctions_4_3_Core), model(new QMatrix4x4),
+      m_projection(nullptr), m_view(nullptr), objColor(0.5, 0.5, 1.0),
+      objSelected(false)
 {
 }
 
-Object::~Object()
-{
-    projection = nullptr;
-    view = nullptr;
-}
 
-void Object::drawObject(QOpenGLShaderProgram &program)
+void SGE::Object::drawObject(QOpenGLShaderProgram &program)
 {
     // Iteration for draw each meshes
-    for(int i = 0; i < meshes.size(); ++i)
+    for (auto &mesh : meshes)
     {
-        meshes[i].Draw(program, projection, view, model);
+        if (objSelected)
+        {
+            mesh.setColor(QVector3D(1.f, 0.7f, 0.f));
+        }
+        else
+        {
+            mesh.setColor(objColor);
+        }
+        mesh.draw(program, m_projection, m_view, model);
     }
 }
 
-void Object::setupObj()
+
+void SGE::Object::setupObj(std::shared_ptr<QMatrix4x4> proj,
+                           std::shared_ptr<QMatrix4x4> view)
 {
+    m_projection = proj;
+    m_view = view;
+
     // Iteration for initialization each meshes
-    for(int i = 0; i < meshes.size(); ++i)
+    for (auto &mesh : meshes)
     {
-        meshes[i].setupMesh();
+        mesh.setColor(objColor);
+        mesh.setupMesh();
     }
+}
+
+
+const QVector3D SGE::Object::getCurrentPos() const
+{
+    QVector3D vec(model->column(3).toVector3D());
+    return vec;
 }
