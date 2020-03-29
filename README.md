@@ -1,2 +1,11 @@
 # SovietGameEngine
-This my game engine. Its a replacment for the previous project written for qmake.
+This is a project that I'm developing just for fun.
+### REQUIRMENTS:
+* Qt5Core
+* Qt5Widgets
+* Qt5Gui
+* Qt5OpenGL
+* assimp
+
+You can give me advice or just help me with something.
+THX!
