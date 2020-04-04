@@ -1,26 +1,20 @@
 cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
 
-project(SovietGameEngine LANGUAGES CXX)
-
-set(CMAKE_CXX_CLANG_TIDY)
+project(SGE LANGUAGES CXX)
 
 # C++ properties
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-include(GNUInstallDirs)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY
-	${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY
-	${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY
-	${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR})
+# Define Release build type by default
+if(NOT DEFINED CMAKE_BUILD_TYPE OR "${CMAKE_BUILD_TYPE}" STREQUAL "")
+	set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
+endif() 
 
-find_package(Qt5 COMPONENTS Widgets Core Gui OpenGL REQUIRED)
-find_package(OpenGL REQUIRED OpenGL)
-find_package(Boost REQUIRED COMPONENTS unit_test_framework)
-find_package(assimp REQUIRED)
+message(STATUS "Build type set to ${CMAKE_BUILD_TYPE}")
+
+include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
 
 add_subdirectory(src)
 add_subdirectory(tests)
