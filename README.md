@@ -19,7 +19,7 @@ After that, make sure that you have python3:
 python3 --version
 ```
 
-If you don't have python3 please install it and try again. All information about python at https://www.python.org/ 
+If you don't have python3 please install it and try again. All information about python at https://www.python.org/.
 Next step, you should install conan - package managment:
 ```
 pip install conan
