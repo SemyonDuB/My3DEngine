@@ -8,29 +8,29 @@ All of these dependencies are set by conan
 
 ### INSTALL:
 First of all go into the project and create build directory:
-'''
+```
 cd "PROJECT-NAME"
 mkdir build
 cd build
-'''
+```
 
 After that, make sure that you have python3:
-'''
+```
 python3 --version
-'''
+```
 
 If you don't have python3 please install it and try again. All information about python at https://www.python.org/ 
 Next step, you should install conan - package managment:
-'''
+```
 pip install conan
-'''
+```
 
 And the final step, you should install CMake, check at https://cmake.org/. And build project:
-'''
+```
 conan install .. --build missing
 cmake ..
 cmake --build .
-'''
+```
 
 You can run executable file in build/src/SGE
 All tests placed in build/tests/
