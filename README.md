@@ -4,7 +4,8 @@ This is a project that I'm developing just for fun.
 * Qt5 5.14.2
 * Boost 1.72.0
 * assimp 5.0.1
-<br/>All of these dependencies are set by conan
+
+All of these dependencies are set by conan
 
 ### INSTALL:
 First of all go into the project and create build directory:
