@@ -1,4 +1,4 @@
-#include "object.h"
+#include "Object.h"
 
 SGE::Object::Object()
     : f(new QOpenGLFunctions_4_3_Core), model(new QMatrix4x4),

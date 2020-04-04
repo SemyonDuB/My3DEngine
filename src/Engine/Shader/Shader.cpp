@@ -1,4 +1,4 @@
-#include "shader.h"
+#include "Shader.h"
 
 SGE::Shader::Shader()
     : shaders({{"simpleshader", &simpleShader},

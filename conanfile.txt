@@ -1,0 +1,8 @@
+[build_requires]
+qt/5.14.2@bincrafters/stable
+boost/1.72.0
+assimp/5.0.1
+
+[generators]
+cmake_find_package
+cmake_paths

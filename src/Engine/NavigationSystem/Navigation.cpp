@@ -1,6 +1,6 @@
-#include "navigation.h"
+#include "Navigation.h"
 
-#include "scene.h"
+#include "Scene.h"
 
 #include <QGuiApplication>
 

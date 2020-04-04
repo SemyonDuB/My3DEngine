@@ -1,5 +1,6 @@
-#include "import.h"
-#include "scene.h"
+#include "Import.h"
+#include "Scene.h"
+#include "iostream"
 
 
 SGE::Import::Import(std::string FileLoc, Scene &sceneObj) : m_File(FileLoc)
@@ -7,7 +8,7 @@ SGE::Import::Import(std::string FileLoc, Scene &sceneObj) : m_File(FileLoc)
     accTransform.setToIdentity();
 
     loadScene();
-    nodeHandler(scene->mRootNode, sceneObj, accTransform);
+    copyNode(scene->mRootNode, sceneObj, accTransform);
 }
 
 
@@ -18,7 +19,7 @@ bool SGE::Import::loadScene()
 
     if (!scene)
     {
-        qDebug() << importer.GetErrorString();
+        std::cout << importer.GetErrorString() << std::endl;
         return false;
     }
 
@@ -38,8 +39,8 @@ QMatrix4x4 translateAiMatrix4x4(const aiMatrix4x4 &tran)
 }
 
 
-void SGE::Import::nodeHandler(const aiNode *node, Scene &sceneObj,
-                              QMatrix4x4 &accTransform)
+void SGE::Import::copyNode(const aiNode *node, Scene &sceneObj,
+                           QMatrix4x4 &accTransform)
 {
     // Recursive func!
 
@@ -58,7 +59,7 @@ void SGE::Import::nodeHandler(const aiNode *node, Scene &sceneObj,
         for (std::size_t n = 0; n < node->mNumMeshes; n++)
         {
             const aiMesh *mesh = scene->mMeshes[node->mMeshes[n]];
-            obj.addMesh(meshHandler(mesh));
+            obj.addMesh(copyMesh(mesh));
         }
 
         obj.setObjLocation(transform);
@@ -69,12 +70,12 @@ void SGE::Import::nodeHandler(const aiNode *node, Scene &sceneObj,
     }
     for (std::size_t i = 0; i < node->mNumChildren; i++)
     {
-        nodeHandler(node->mChildren[i], sceneObj, transform);
+        copyNode(node->mChildren[i], sceneObj, transform);
     }
 }
 
 
-SGE::Mesh SGE::Import::meshHandler(const aiMesh *mesh)
+SGE::Mesh SGE::Import::copyMesh(const aiMesh *mesh)
 {
     std::vector<Vertex> vertices;
     std::vector<GLuint> indices;

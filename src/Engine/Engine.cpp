@@ -1,7 +1,7 @@
-#include "engine.h"
-#include "navigation.h"
-#include "scene.h"
-#include "shader.h"
+#include "Engine.h"
+#include "Navigation.h"
+#include "Scene.h"
+#include "Shader.h"
 
 #include <cstdio>
 #include <iostream>
