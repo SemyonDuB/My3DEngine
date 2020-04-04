@@ -1,10 +1,9 @@
 #pragma once
 #include <QMatrix4x4>
 #include <QOpenGLFunctions_4_3_Core>
-#include <QVector>
 #include <memory>
 
-#include "mesh.h"
+#include "Mesh.h"
 
 class QOpenGLShaderProgram;
 

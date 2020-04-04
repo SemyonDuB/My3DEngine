@@ -2,11 +2,11 @@ add_library(Scene "")
 
 target_sources(Scene 
 	PRIVATE BaseScene.cpp
-			scene.cpp
+			Scene.cpp
 	PUBLIC BaseScene.h
-		   scene.h)
+		   Scene.h)
 
 target_include_directories(Scene 
 	PUBLIC ${CMAKE_CURRENT_LIST_DIR})
 
-target_link_libraries(Scene PRIVATE Qt5::Core Qt5::Gui OpenGL::OpenGL Engine)
+target_link_libraries(Scene Shader Object Qt5::Core OpenGL::OpenGL)

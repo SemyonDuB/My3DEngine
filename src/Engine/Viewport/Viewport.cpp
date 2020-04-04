@@ -1,8 +1,8 @@
-#include "viewport.h"
-#include "navigation.h"
-#include "scene.h"
-#include "import.h"
-#include "shader.h"
+#include "Viewport.h"
+#include "Navigation.h"
+#include "Scene.h"
+#include "Import.h"
+#include "Shader.h"
 
 #include <QGuiApplication>
 #include <QMouseEvent>

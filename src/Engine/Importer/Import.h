@@ -7,8 +7,8 @@
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
 
-#include "mesh.h"
-#include "object.h"
+#include "Mesh.h"
+#include "Object.h"
 
 
 QMatrix4x4 translateAiMatrix4x4(const aiMatrix4x4 &tran);
@@ -33,9 +33,9 @@ namespace SGE
         QMatrix4x4 accTransform;
 
         bool loadScene();
-        void nodeHandler(const aiNode *node, SGE::Scene &sceneObj,
+        void copyNode(const aiNode *node, SGE::Scene &sceneObj,
                          QMatrix4x4 &accTransform);
 
-        SGE::Mesh meshHandler(const aiMesh *mesh);
+        SGE::Mesh copyMesh(const aiMesh *mesh);
     };
 } // namespace SGE

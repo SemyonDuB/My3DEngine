@@ -2,7 +2,7 @@
 #include <QOpenGLContext>
 #include <QSurfaceFormat>
 
-#include "UI/mainwindow.h"
+#include "MainWindow.h"
 
 
 int main(int argc, char *argv[])
@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     context->setFormat(format);
     context->create();
 
-    auto *win = new MainWindow();
+    auto *win = new MainWindow;
     win->resize(800, 600);
     win->show();
 

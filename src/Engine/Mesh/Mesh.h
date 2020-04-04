@@ -3,7 +3,6 @@
 #include <QOpenGLBuffer>
 #include <QOpenGLFunctions>
 #include <QOpenGLVertexArrayObject>
-#include <QSharedPointer>
 #include <memory>
 
 

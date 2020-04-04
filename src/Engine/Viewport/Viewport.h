@@ -2,7 +2,7 @@
 
 #include <QOpenGLWindow>
 
-#include "engine.h"
+#include "Engine.h"
 #include <QMatrix4x4>
 #include <QOpenGLFunctions>
 #include <QString>

@@ -2,8 +2,8 @@
 
 #include <memory>
 
-#include "shader.h"
-#include "object.h"
+#include "Shader.h"
+#include "Object.h"
 
 namespace SGE
 {

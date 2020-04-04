@@ -1,6 +1,4 @@
 #pragma once
-#include <QMatrix4x4>
-
 #include <QOpenGLShaderProgram>
 
 namespace SGE
