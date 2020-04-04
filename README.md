@@ -1,16 +1,6 @@
 # SovietGameEngine
 This is a project that I'm developing just for fun.
 ### REQUIRMENTS:
-<<<<<<< HEAD
-* Qt5Core
-* Qt5Widgets
-* Qt5Gui
-* Qt5OpenGL
-* assimp
-
-You can give me advice or just help me with something.
-THX!
-=======
 * Qt5 5.14.2
 * Boost 1.72.0
 * assimp 5.0.1
@@ -48,4 +38,3 @@ You can run executable file in build/src/SGE
 
 You can give me advice or just help me with something, or if you can't build my project, I will try to help you.
 <br/>THX!
->>>>>>> f67090634d935bcc359dd69a2e2706ce065a074a
