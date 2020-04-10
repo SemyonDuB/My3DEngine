@@ -1,7 +1,4 @@
 #include "Engine.h"
-#include "Navigation.h"
-#include "Scene.h"
-#include "Shader.h"
 
 #include <cstdio>
 #include <iostream>
@@ -40,4 +37,18 @@ std::string SGE::getProjectDir()
     getcwd(working_dir, sizeof(working_dir));
 
     return std::string(working_dir) + "/";
+}
+
+
+fs::path SGE::find_file(const fs::path &file_name)
+{
+    using namespace fs;
+    for (auto &file_path : recursive_directory_iterator(current_path()))
+        if (path(file_path).filename() == file_name &&
+            is_regular_file(path(file_path)))
+            return path(file_path);
+
+    using namespace std;
+    throw filesystem_error("Can't find file",
+                           make_error_code(errc::no_such_file_or_directory));
 }

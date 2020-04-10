@@ -17,4 +17,6 @@ message(STATUS "Build type set to ${CMAKE_BUILD_TYPE}")
 include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
 
 add_subdirectory(src)
+
+enable_testing()
 add_subdirectory(tests)

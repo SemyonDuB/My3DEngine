@@ -28,7 +28,7 @@ pip install conan
 
 And the final step, you should install CMake, check at https://cmake.org/. And build project:
 ```
-conan install .. --build missing
+conan install .. --build missing -s compiler.libcxx=libstdc++11
 cmake ..
 cmake --build .
 ```

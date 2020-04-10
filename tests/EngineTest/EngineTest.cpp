@@ -1,10 +1,13 @@
 #define BOOST_TEST_MODULE Engine_test
 #include <boost/test/unit_test.hpp>
-#include <filesystem>
 
 #include "Engine.h"
 
+#include <string>
+#include <filesystem>
+
 namespace fs = std::filesystem;
+
 
 BOOST_AUTO_TEST_CASE(throw_if_file_doesnt_exist)
 {
