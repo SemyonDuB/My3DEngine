@@ -10,7 +10,6 @@
 #include "Mesh.h"
 #include "Object.h"
 
-
 QMatrix4x4 translateAiMatrix4x4(const aiMatrix4x4 &tran);
 
 namespace SGE
@@ -20,6 +19,7 @@ namespace SGE
     class Import
     {
     public:
+		Import() {};
         Import(std::string FileLoc, Scene &sceneObj);
         void importObj(std::string fileLoc, Scene &sceneObj);
 

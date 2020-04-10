@@ -1,0 +1,2 @@
+file(COPY test_file.txt DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY test_link_file.txt DESTINATION ${CMAKE_CURRENT_BINARY_DIR})

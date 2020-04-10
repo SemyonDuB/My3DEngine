@@ -7,7 +7,7 @@ target_sources(Engine
 target_include_directories(Engine 
 	PUBLIC ${CMAKE_CURRENT_LIST_DIR})
 
-target_link_libraries(Engine UI)
+target_link_libraries(Engine PUBLIC Scene Shader NavigationSystem)
 
 add_subdirectory(Importer)
 add_subdirectory(Mesh)
